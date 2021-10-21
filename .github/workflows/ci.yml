@@ -13,7 +13,9 @@ jobs:
 
       - name: Test with Pester
         shell: pwsh
-        run: Invoke-Pester Unit.Tests.ps1 -Passthru | Export-CliXml -Path Unit.Tests.xml
+        run: |
+          ./setup.ps1
+          Invoke-Pester ./Tests/ -Passthru | Export-CliXml -Path Unit.Tests.xml
 
       - name: Upload test results
         uses: actions/upload-artifact@v2
@@ -72,4 +74,5 @@ jobs:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
         shell: pwsh
         run: |
+          ./setup.ps1
           Publish-Module -Path PSHello -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey $env:NUGET_KEY -Verbose
