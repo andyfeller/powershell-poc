@@ -1,0 +1,14 @@
+PSTOPIC
+    about_PSHello
+
+SHORT DESCRIPTION
+    PSHello is a simple proof of concept module for demoing PowerShell.
+
+LONG DESCRIPTION
+    PSHello is a simple proof of concept module for demoing PowerShell.
+
+    You can find more info here:
+        https://github.com/andyfeller/powershell-poc
+
+DETAILED DESCRIPTION
+    This is as basic of a PowerShell module as you can get: just write out "Hello world!".
