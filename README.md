@@ -10,14 +10,19 @@ This is a proof of concept on how you can develop, build, and package PowerShell
 
 For local development or execution on remote machines, these will have to be installed and maintained through your preferred processes.
 
-For continuous integration, these should be pre-installed in [`windows-2016`][actions-virtual-environment-windows-2016], [`windows-2019`][actions-virtual-environment-windows-2019], and [`windows-2022`][actions-virtual-environment-windows-2022] virtual environments.
+For continuous integration, these should be pre-installed in various GitHub Actions virtual environments:
+  - [`ubuntu-18.04`][actions-virtual-environment-ubuntu-1804]
+  - [`ubuntu-20.04`][actions-virtual-environment-ubuntu-2004]
+  - [`windows-2016`][actions-virtual-environment-windows-2016]
+  - [`windows-2019`][actions-virtual-environment-windows-2019]
+  - [`windows-2022`][actions-virtual-environment-windows-2022]
 
 ### Maintainer
 
 1. [Create Azure DevOps Artifacts feed and personal access token (PAT) for CI][azure-devops-artifacts-powershell]
 
    <details>
-     <summary>Only **Packaging (Read & Write)** permissions needed</summary>
+     <summary>Only <b>Packaging (Read & Write)</b> permissions needed</summary>
 
      ![Screenshot of Azure DevOps personal access tokens needed by maintainer for GitHub Actions to publish to Azure Artifacts feed](docs/assets/maintainer-azure-devops-pat.png)
    </details>
@@ -37,6 +42,12 @@ For continuous integration, these should be pre-installed in [`windows-2016`][ac
    </details>
 
 1. Create GitHub Actions secret with Azure DevOps Artifacts PAT
+
+   <details>
+     <summary>GitHub Action secrets are obscured in runner logs</summary>
+
+     ![Screenshot of GitHub repository settings for actions secrets available to actions runners including secret of Azure Artifacts PAT to publish artifacts](docs/assets/maintainer-actions-secret.png)
+   </details>
 
 ### Contributor
 
@@ -77,6 +88,8 @@ In figuring out how to structure repositories for modules, scripts, and packages
 [actions-virtual-environment-windows-2016]: https://github.com/actions/virtual-environments/blob/main/images/win/Windows2016-Readme.md
 [actions-virtual-environment-windows-2019]: https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
 [actions-virtual-environment-windows-2022]: https://github.com/actions/virtual-environments/blob/main/images/win/Windows2022-Readme.md
+[actions-virtual-environment-ubuntu-1804]: https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
+[actions-virtual-environment-ubuntu-2004]: https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md
 [actions-supported-runners]: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
 [pester]: https://github.com/pester/Pester
 [plaster]: https://github.com/PowerShellOrg/Plaster
