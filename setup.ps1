@@ -9,7 +9,7 @@ $env:PSModulePath += "$([System.IO.Path]::PathSeparator)$($pwd.Path)"
 
 
 # Register Powershell repository; needed for publishing
-$repositoryName = "poweshell-poc"
+$repositoryName = "powershell-poc"
 $repositoryUri = "https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2"
 
 Write-Output (@'
@@ -18,4 +18,5 @@ Registering PS repository
     URI: {1}
 '@ -f $repositoryName, $repositoryUri)
 
-Register-PSRepository -Name $repositoryName -SourceLocation $repositoryUri -PublishLocation $repositoryUri
+# Register-PSRepository -Name $repositoryName -SourceLocation $repositoryUri -PublishLocation $repositoryUri
+Register-PackageSource -Name $repositoryName -Location $repositoryUri -Trusted -SkipValidate -ProviderName NuGet
