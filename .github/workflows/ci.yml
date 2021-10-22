@@ -73,7 +73,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup
+      - name: Publish
         shell: pwsh
         env:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
@@ -83,15 +83,12 @@ jobs:
           # Register Powershell repository; needed for publishing
           $repositoryName = "powershell-poc"
           $repositoryUri = "https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2"
-          $credential = New-Object System.Management.Automation.PSCredential -ArgumentList 'andyfeller', (ConvertTo-SecureString -AsPlainText $env:NUGET_KEY -Force)
+          $username = 'andyfeller'
+          $credential = New-Object System.Management.Automation.PSCredential -ArgumentList $username, (ConvertTo-SecureString -AsPlainText $env:NUGET_KEY -Force)
 
           Register-PSRepository -Name $repositoryName -SourceLocation $repositoryUri -PublishLocation $repositoryUri -ScriptSourceLocation $repositoryUri -ScriptPublishLocation $repositoryUri -Credential $credential -InstallationPolicy Trusted
-
           Get-PSRepository
 
-      - name: Publish
-        shell: pwsh
-        env:
-          NUGET_KEY: ${{ secrets.NUGET_KEY }}
-        run: |
-          Publish-Module -Repository powershell-poc -Path PSHello -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey $env:NUGET_KEY -Verbose
+          dotnet nuget add source -n $repositoryName -u $username -p $env:NUGET_KEY --store-password-in-clear-text
+
+          Publish-Module -Repository powershell-poc -Path PSHello -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey 'n/a' -Verbose
