@@ -89,6 +89,6 @@ jobs:
           Register-PSRepository -Name $repositoryName -SourceLocation $repositoryUri -PublishLocation $repositoryUri -ScriptSourceLocation $repositoryUri -ScriptPublishLocation $repositoryUri -Credential $credential -InstallationPolicy Trusted
           Get-PSRepository
 
-          dotnet nuget add source -n $repositoryName -u $username -p $env:NUGET_KEY --store-password-in-clear-text
+          dotnet nuget add source $repositoryUri -n $repositoryName -u $username -p $env:NUGET_KEY --store-password-in-clear-text
 
           Publish-Module -Repository powershell-poc -Path PSHello -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey 'n/a' -Verbose
