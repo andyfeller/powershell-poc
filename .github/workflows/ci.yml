@@ -85,7 +85,9 @@ jobs:
           $repositoryUri = "https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2"
           $credential = New-Object System.Management.Automation.PSCredential -ArgumentList 'andyfeller', (ConvertTo-SecureString -AsPlainText $env:NUGET_KEY -Force)
 
-          Register-PSRepository -Name $repositoryName -SourceLocation $repositoryUri -PublishLocation $repositoryUri -ScriptSourceLocation $repositoryUri -ScriptPublishLocation $repositoryUri -Credential $credential
+          Register-PSRepository -Name $repositoryName -SourceLocation $repositoryUri -PublishLocation $repositoryUri -ScriptSourceLocation $repositoryUri -ScriptPublishLocation $repositoryUri -Credential $credential -InstallationPolicy Trusted
+
+          Get-PSRepository
 
       - name: Publish
         shell: pwsh
