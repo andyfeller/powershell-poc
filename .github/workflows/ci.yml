@@ -79,4 +79,4 @@ jobs:
         shell: pwsh
         run: |
           ./setup.ps1
-          Publish-Module -Path PSHello -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey $env:NUGET_KEY -Verbose
+          Publish-Module -Repository powershell-poc -Path PSHello -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey $env:NUGET_KEY -Verbose
