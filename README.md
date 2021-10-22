@@ -11,11 +11,11 @@ This is a proof of concept on how you can develop, build, and package PowerShell
 For local development or execution on remote machines, these will have to be installed and maintained through your preferred processes.
 
 For continuous integration, these should be pre-installed in various GitHub Actions virtual environments:
-  - [`ubuntu-18.04`][actions-virtual-environment-ubuntu-1804]
-  - [`ubuntu-20.04`][actions-virtual-environment-ubuntu-2004]
-  - [`windows-2016`][actions-virtual-environment-windows-2016]
-  - [`windows-2019`][actions-virtual-environment-windows-2019]
-  - [`windows-2022`][actions-virtual-environment-windows-2022]
+  - [ubuntu-18.04][actions-virtual-environment-ubuntu-1804]
+  - [ubuntu-20.04][actions-virtual-environment-ubuntu-2004]
+  - [windows-2016][actions-virtual-environment-windows-2016]
+  - [windows-2019][actions-virtual-environment-windows-2019]
+  - [windows-2022][actions-virtual-environment-windows-2022]
 
 ### Maintainer
 
