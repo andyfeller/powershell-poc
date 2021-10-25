@@ -6,11 +6,6 @@ jobs:
     name: PowerShell Info Dump
     runs-on: ubuntu-latest
     steps:
-      - name: powershell info
-        shell: powershell
-        run: |
-          get-host
-
       - name: pwsh info
         shell: pwsh
         run: |
