@@ -1,7 +1,7 @@
 name: PowerShell Info
 on:
   workflow_dispatch:
-jobs
+jobs:
   info:
     name: PowerShell Info Dump
     runs-on: ubuntu-latest
