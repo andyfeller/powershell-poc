@@ -1,8 +1,9 @@
-name: Info
+name: PowerShell Info
 on:
   workflow_dispatch:
 jobs
   info:
+    name: PowerShell Info Dump
     runs-on: ubuntu-latest
     steps:
       - name: powershell info
