@@ -9,9 +9,9 @@ jobs:
       - name: powershell info
         shell: powershell
         run: |
-          $PSVersionTable
+          get-host
 
       - name: pwsh info
         shell: pwsh
         run: |
-          $PSVersionTable
+          get-host
