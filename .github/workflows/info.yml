@@ -1,0 +1,16 @@
+name: Info
+on:
+  workflow_dispatch:
+jobs
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: powershell info
+        shell: powershell
+        run: |
+          $PSVersionTable
+
+      - name: pwsh info
+        shell: pwsh
+        run: |
+          $PSVersionTable
