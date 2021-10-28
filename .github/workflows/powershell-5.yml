@@ -1,0 +1,14 @@
+name: PowerShell 5 Experiment
+on:
+  workflow_dispatch:
+jobs:
+  experiment:
+    name: Install PowerShell 5
+    runs-on: windows-2016
+    steps:
+
+      # https://community.chocolatey.org/packages/PowerShell
+      # https://docs.chocolatey.org/en-us/choco/commands/install
+      - name: Installing WMF and PowerShell 5
+        run: |
+          choco install powershell --yes --force
