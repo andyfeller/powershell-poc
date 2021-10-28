@@ -11,7 +11,7 @@ jobs:
           dir C:\Windows\System32\WindowsPowerShell\
 
       - run: |
-          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -version
+          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command "Get-Host"
 
       - run: |
           Get-Host
