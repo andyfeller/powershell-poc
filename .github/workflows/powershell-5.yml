@@ -10,18 +10,18 @@ jobs:
           - windows-2016
           - windows-2019
           - windows-2022
-      runs-on: ${{ matrix.runner }}
-      steps:
-        - run: |
-            Get-Host
-          shell: pwsh
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - run: |
+          Get-Host
+        shell: pwsh
 
-        - run: |
-            C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command "Get-Host"
+      - run: |
+          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command "Get-Host"
 
-        - run: |
-            Get-Host
-          shell: powershell
+      - run: |
+          Get-Host
+        shell: powershell
 
 #  explore:
 #    strategy:
