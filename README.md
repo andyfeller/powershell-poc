@@ -80,7 +80,7 @@ This primarily impacts PowerShell projects as developers on `dotnet` projects as
 [GitHub-hosted runners][actions-supported-runners] have support for PowerShell 5.1 and/or 7.x depending on the virtual machine type and [shell][actions-shells] used:
 
 | Virtual machine \ PowerShell version                     | 5.1          | 7.x    | Per-minute rate | End of life                                |
-| -------------------------------------------------------- | ------------ | ------ | --------------- | ------------------------------------------ |
+| -------------------------------------------------------- | ------------ | ------ | --------------: | ------------------------------------------ |
 | [macos-10.15][actions-virtual-environment-macos-1015]    |              | `pwsh` |          $0.08  |                                            |
 | [macos-11][actions-virtual-environment-macos-11]         |              | `pwsh` |          $0.08  |                                            |
 | [ubuntu-18.04][actions-virtual-environment-ubuntu-1804]  |              | `pwsh` |          $0.008 |                                            |
