@@ -75,6 +75,82 @@ This primarily impacts PowerShell projects as developers on `dotnet` projects as
 
 [Azure DevOps Artifacts][azure-devops-artifacts] is the only [managed PowerShell repository solution with NuGet v2 support][powershell-private-repo-hosting] recommended by Microsoft capable of supporting private PowerShell repositories.
 
+## Supported PowerShell versions
+
+[GitHub-hosted runners][actions-supported-runners] have support for PowerShell 5.1 and/or 7.x depending on the virtual machine type and [shell][actions-shells] used:
+
+| Virtual machine \ PowerShell version                     | 5.1          | 7.x    | Per-minute rate | End of life                                |
+| -------------------------------------------------------- | ------------ | ------ | --------------- | ------------------------------------------ |
+| [macos-10.15][actions-virtual-environment-macos-1015]    |              | `pwsh` |          $0.08  |                                            |
+| [macos-11][actions-virtual-environment-macos-11]         |              | `pwsh` |          $0.08  |                                            |
+| [ubuntu-18.04][actions-virtual-environment-ubuntu-1804]  |              | `pwsh` |          $0.008 |                                            |
+| [ubuntu-20.04][actions-virtual-environment-ubuntu-2004]  |              | `pwsh` |          $0.008 |                                            |
+| [windows-2016][actions-virtual-environment-windows-2016] | `powershell` | `pwsh` |          $0.016 | [March 15, 2022][actions-windows-2016-eol] |
+| [windows-2019][actions-virtual-environment-windows-2019] | `powershell` | `pwsh` |          $0.016 |                                            |
+| [windows-2022][actions-virtual-environment-windows-2022] | `powershell` | `pwsh` |          $0.016 |                                            |
+
+For differences and history around PowerShell 5.1 _(Desktop)_ and 7.x _(Core)_, [read more][powershell-version-differences].
+
+For information on how GitHub-hosted runners are billed, [read more][actions-billing].
+
+<details>
+  <summary>For confirming the version of PowerShell</summary>
+
+  The following action workflow will show both PowerShell 5.1 and 7.x are installed on `windows-*` runners:
+
+  ```
+  on:
+    workflow_dispatch:
+  jobs:
+    check-powershell-versions:
+      strategy:
+        matrix:
+          runner:
+            - windows-2016
+            - windows-2019
+            - windows-2022
+      runs-on: ${{ matrix.runner }}
+      steps:
+        - run: |
+            Get-Host
+          shell: powershell
+
+        - run: |
+            Get-Host
+          shell: pwsh
+  ```
+
+  resulting in:
+  
+  ```
+  Name             : ConsoleHost
+  Version          : 5.1.20348.230
+  InstanceId       : b6a8f124-9444-4c21-9af8-5299d854b274
+  UI               : System.Management.Automation.Internal.Host.InternalHostUserInterface
+  CurrentCulture   : en-US
+  CurrentUICulture : en-US
+  PrivateData      : Microsoft.PowerShell.ConsoleHost+ConsoleColorProxy
+  DebuggerEnabled  : True
+  IsRunspacePushed : False
+  Runspace         : System.Management.Automation.Runspaces.LocalRunspace
+  ```
+  
+  and
+  
+  ```
+  Name             : ConsoleHost
+  Version          : 7.1.5
+  InstanceId       : 58ae196a-c589-4e2f-aa78-c1b76f69cf1e
+  UI               : System.Management.Automation.Internal.Host.InternalHostUserInterface
+  CurrentCulture   : en-US
+  CurrentUICulture : en-US
+  PrivateData      : Microsoft.PowerShell.ConsoleHost+ConsoleColorProxy
+  DebuggerEnabled  : True
+  IsRunspacePushed : False
+  Runspace         : System.Management.Automation.Runspaces.LocalRunspace
+  ```
+</details>
+
 ## References
 
 ### PowerShell repository structure
@@ -86,11 +162,14 @@ In figuring out how to structure repositories for modules, scripts, and packages
 - [Rambling Cookie Monster "Building a PowerShell Module"][building-modules-ramblingcookiemonster]
 
 [actions-supported-runners]: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+[actions-virtual-environment-macos-1015]: https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md
+[actions-virtual-environment-macos-11]: https://github.com/actions/virtual-environments/blob/main/images/macos/macos-11-Readme.md
 [actions-virtual-environment-ubuntu-1804]: https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu1804-README.md
 [actions-virtual-environment-ubuntu-2004]: https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md
 [actions-virtual-environment-windows-2016]: https://github.com/actions/virtual-environments/blob/main/images/win/Windows2016-Readme.md
 [actions-virtual-environment-windows-2019]: https://github.com/actions/virtual-environments/blob/main/images/win/Windows2019-Readme.md
 [actions-virtual-environment-windows-2022]: https://github.com/actions/virtual-environments/blob/main/images/win/Windows2022-Readme.md
+[actions-windows-2016-eol]: https://github.blog/changelog/2021-10-19-github-actions-the-windows-2016-runner-image-will-be-removed-from-github-hosted-runners-on-march-15-2022/
 [azure-devops-artifacts-powershell]: https://docs.microsoft.com/en-us/azure/devops/artifacts/tutorials/private-powershell-library?view=azure-devops
 [azure-devops-artifacts]: https://azure.microsoft.com/en-us/services/devops/artifacts/
 [azure-devops]: https://azure.microsoft.com/en-us/services/devops/
@@ -109,9 +188,12 @@ In figuring out how to structure repositories for modules, scripts, and packages
 [plaster]: https://github.com/PowerShellOrg/Plaster
 [powershell-about-comment-based-help]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_comment_based_help?view=powershell-7.1
 [powershell-about-format]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_format.ps1xml?view=powershell-7.1
+[powershell-version-differences]: https://docs.microsoft.com/en-us/powershell/scripting/whats-new/differences-from-windows-powershell?view=powershell-7.1
 [powershell-install]: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.1
 [powershell-private-repo-hosting]: https://docs.microsoft.com/en-us/powershell/scripting/gallery/how-to/working-with-local-psrepositories?view=powershell-7.1#use-packaging-solutions-to-host-powershellget-repositories
 [powershellgallery-plaster]: https://www.powershellgallery.com/packages/Plaster/
 [powershellgallery-publishing-guidelines]: https://docs.microsoft.com/en-us/powershell/scripting/gallery/concepts/publishing-guidelines?view=powershell-7.1
 [powershellgallery-publishing-guidelines]: https://docs.microsoft.com/en-us/powershell/scripting/gallery/concepts/publishing-guidelines?view=powershell-7.1
 [powershellget-nuget-support]: https://devblogs.microsoft.com/powershell/powershellget-3-0-preview-11-release/
+[actions-shells]: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#using-a-specific-shell
+[actions-billing]: https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
