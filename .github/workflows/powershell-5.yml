@@ -2,19 +2,40 @@ name: PowerShell 5 Experiment
 on:
   workflow_dispatch:
 jobs:
-  explore:
+  windows-5.1-support-check:
     strategy:
       fail-fast: false
-    runs-on: windows-2016
-    steps:
-      - run: |
-          dir C:\Windows\System32\WindowsPowerShell\
+      matrix:
+        runner:
+          - windows-2016
+          - windows-2019
+          - windows-2022
+      runs-on: ${{ matrix.runner }}
+      steps:
+        - run: |
+            Get-Host
+          shell: pwsh
 
-      - run: |
-          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command "Get-Host"
+        - run: |
+            C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command "Get-Host"
 
-      - run: |
-          Get-Host
+        - run: |
+            Get-Host
+          shell: powershell
+
+#  explore:
+#    strategy:
+#      fail-fast: false
+#    runs-on: windows-2016
+#    steps:
+#      - run: |
+#          dir C:\Windows\System32\WindowsPowerShell\
+#
+#      - run: |
+#          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command "Get-Host"
+#
+#      - run: |
+#          Get-Host
 
 #  experiment:
 #    name: Install PowerShell 5
