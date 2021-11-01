@@ -151,16 +151,17 @@ For information on how GitHub-hosted runners are billed, [read more][actions-bil
   ```
 </details>
 
-## References
+## PowerShell repository structure
 
-### PowerShell repository structure
-
-In figuring out how to structure repositories for modules, scripts, and packages, I found several articles that were really well written and provided opinionated, concrete approaches:
+This repository is a proof of concept and it is evolving as we learn from others and exercise ideas.  One of those areas is the relation of repository design and building artifacts.
 
 - [Invoke-Automation "PowerShell Scaffolding – How I build modules"][building-modules-invokeautomation]
 - [PowerShell Explained "Powershell: Adventures in Plaster"][building-modules-powershellexplained]
 - [Rambling Cookie Monster "Building a PowerShell Module"][building-modules-ramblingcookiemonster]
+- [Adam the Automator "Understanding and Building PowerShell Modules"][building-modules-adamtheautomator]
 
+[actions-billing]: https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
+[actions-shells]: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#using-a-specific-shell
 [actions-supported-runners]: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
 [actions-virtual-environment-macos-1015]: https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md
 [actions-virtual-environment-macos-11]: https://github.com/actions/virtual-environments/blob/main/images/macos/macos-11-Readme.md
@@ -173,6 +174,7 @@ In figuring out how to structure repositories for modules, scripts, and packages
 [azure-devops-artifacts-powershell]: https://docs.microsoft.com/en-us/azure/devops/artifacts/tutorials/private-powershell-library?view=azure-devops
 [azure-devops-artifacts]: https://azure.microsoft.com/en-us/services/devops/artifacts/
 [azure-devops]: https://azure.microsoft.com/en-us/services/devops/
+[building-modules-adamtheautomator]: https://adamtheautomator.com/powershell-modules/#Adding_PSRepositories
 [building-modules-invokeautomation]: https://invoke-automation.blog/2019/09/24/powershell-scaffolding-how-i-build-modules/
 [building-modules-powershellexplained]: https://powershellexplained.com/2017-05-12-Powershell-Plaster-adventures-in/
 [building-modules-ramblingcookiemonster]: http://ramblingcookiemonster.github.io/Building-A-PowerShell-Module/
@@ -188,12 +190,10 @@ In figuring out how to structure repositories for modules, scripts, and packages
 [plaster]: https://github.com/PowerShellOrg/Plaster
 [powershell-about-comment-based-help]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_comment_based_help?view=powershell-7.1
 [powershell-about-format]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_format.ps1xml?view=powershell-7.1
-[powershell-version-differences]: https://docs.microsoft.com/en-us/powershell/scripting/whats-new/differences-from-windows-powershell?view=powershell-7.1
 [powershell-install]: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.1
 [powershell-private-repo-hosting]: https://docs.microsoft.com/en-us/powershell/scripting/gallery/how-to/working-with-local-psrepositories?view=powershell-7.1#use-packaging-solutions-to-host-powershellget-repositories
+[powershell-version-differences]: https://docs.microsoft.com/en-us/powershell/scripting/whats-new/differences-from-windows-powershell?view=powershell-7.1
 [powershellgallery-plaster]: https://www.powershellgallery.com/packages/Plaster/
 [powershellgallery-publishing-guidelines]: https://docs.microsoft.com/en-us/powershell/scripting/gallery/concepts/publishing-guidelines?view=powershell-7.1
 [powershellgallery-publishing-guidelines]: https://docs.microsoft.com/en-us/powershell/scripting/gallery/concepts/publishing-guidelines?view=powershell-7.1
 [powershellget-nuget-support]: https://devblogs.microsoft.com/powershell/powershellget-3-0-preview-11-release/
-[actions-shells]: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#using-a-specific-shell
-[actions-billing]: https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
