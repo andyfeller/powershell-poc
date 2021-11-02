@@ -64,6 +64,7 @@ jobs:
         shell: pwsh
         env:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
+          REPOSITORY_PATH: ${{ github.workspace }}
           REPOSITORY_NAME: powershell-poc
           REPOSITORY_URI: https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2
         run: |

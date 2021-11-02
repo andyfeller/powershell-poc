@@ -1,7 +1,5 @@
 # Set variables based on optional env vars or defaults
-$modulePath = "$PSScriptRoot/modules"
-$repositoryName = $env:REPOSITORY_NAME ?? "powershell-poc"
-$repositoryUri = $env:REPOSITORY_URI ?? "https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2"
+$modulePath = "$($env:REPOSITORY_PATH ?? $PSScriptRoot)/modules"
 
 # Adding current path (workspace root) to PowerShell modules path; needed for testing and publishing
 Write-Output (@'
