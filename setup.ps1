@@ -1,5 +1,5 @@
 # Set variables based on optional env vars or defaults
-$modulePath = "$($env:REPOSITORY_PATH ?? $PSScriptRoot)/modules"
+$modulePath = "$($env:GITHUB_WORKSPACE ?? $PSScriptRoot)/modules"
 
 # Adding current path (workspace root) to PowerShell modules path; needed for testing and publishing
 Write-Output (@'
