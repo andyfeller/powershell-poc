@@ -64,7 +64,6 @@ jobs:
         shell: pwsh
         env:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
-          REPOSITORY_PATH: ${{ github.workspace }}
           REPOSITORY_NAME: powershell-poc
           REPOSITORY_URI: https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2
         run: |
@@ -79,8 +78,8 @@ jobs:
           dotnet nuget add source $env:REPOSITORY_URI -n $env:REPOSITORY_NAME -u $username -p $env:NUGET_KEY --store-password-in-clear-text
 
           # Publish PowerShell modules and scripts
-          $modules = Get-ChildItem $PSScriptRoot\modules -Directory
-          $scripts = Get-ChildItem $PSScriptRoot\scripts -Filter *.ps1
+          $modules = Get-ChildItem "$env:GITHUB_WORKSPACE\modules" -Directory
+          $scripts = Get-ChildItem "$env:GITHUB_WORKSPACE\scripts" -Filter *.ps1
 
           foreach ($module in $modules) {
             Publish-Module -Repository $env:REPOSITORY_NAME -Path $module -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey 'n/a' -Verbose
