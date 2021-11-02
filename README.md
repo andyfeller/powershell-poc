@@ -189,6 +189,22 @@ For information on how GitHub-hosted runners are billed, [read more][actions-bil
   ```
 </details>
 
+## Creating new PowerShell scripts and modules
+
+Using the [`New-ScriptFileInfo` cmdlet][powershell-new-scriptfileinfo], you can create a new script based on the following example:
+
+```powershell
+$scriptFileInfo = @{
+  Path = "./scripts/PSHelloWrapper.ps1"
+  Version = "0.0.1"
+  Author = "andyfeller@github.com"
+  Description = "Simple wrapper around PSHello module"
+}
+
+New-ScriptFileInfo @scriptFileInfo
+```
+
+
 ## PowerShell repository structure
 
 This repository is a proof of concept and it is evolving as we learn from others and exercise ideas.  One of those areas is the relation of repository design and building artifacts.
@@ -241,3 +257,4 @@ This repository is a proof of concept and it is evolving as we learn from others
 [powershellgallery-publishing-guidelines]: https://docs.microsoft.com/en-us/powershell/scripting/gallery/concepts/publishing-guidelines?view=powershell-7.1
 [powershellget-nuget-support]: https://devblogs.microsoft.com/powershell/powershellget-3-0-preview-11-release/
 [pci-tls-12]: https://www.docusign.com/blog/developers/preparing-tls-11-removal
+[powershell-new-scriptfileinfo]: https://docs.microsoft.com/en-us/powershell/module/powershellget/new-scriptfileinfo?view=powershell-7.1
