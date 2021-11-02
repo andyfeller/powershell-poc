@@ -35,19 +35,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup PowerShell module cache
-        id: cacher
-        uses: actions/cache@v2
-        with:
-          path: "~/.local/share/powershell/Modules"
-          key: ${{ runner.os }}-PSScriptAnalyzer
-
-      - name: Install PSScriptAnalyzer module
-        shell: pwsh
-        run: |
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module PSScriptAnalyzer -ErrorAction Stop
-
       - name: Lint with PSScriptAnalyzer
         shell: pwsh
         run: |
@@ -77,18 +64,18 @@ jobs:
         shell: pwsh
         env:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
+          REPOSITORY_NAME: powershell-poc
+          REPOSITORY_URI: https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2
         run: |
           ./setup.ps1
 
           # Register Powershell repository; needed for publishing
-          $repositoryName = "powershell-poc"
-          $repositoryUri = "https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2"
           $username = 'andyfeller'
           $credential = New-Object System.Management.Automation.PSCredential -ArgumentList $username, (ConvertTo-SecureString -AsPlainText $env:NUGET_KEY -Force)
 
-          Register-PSRepository -Name $repositoryName -SourceLocation $repositoryUri -PublishLocation $repositoryUri -ScriptSourceLocation $repositoryUri -ScriptPublishLocation $repositoryUri -Credential $credential -InstallationPolicy Trusted
+          Register-PSRepository -Name $env:REPOSITORY_NAME -SourceLocation $env:REPOSITORY_URI -PublishLocation $env:REPOSITORY_URI -ScriptSourceLocation $env:REPOSITORY_URI -ScriptPublishLocation $env:REPOSITORY_URI -Credential $credential -InstallationPolicy Trusted
           Get-PSRepository
 
-          dotnet nuget add source $repositoryUri -n $repositoryName -u $username -p $env:NUGET_KEY --store-password-in-clear-text
+          dotnet nuget add source $env:REPOSITORY_URI -n $env:REPOSITORY_NAME -u $username -p $env:NUGET_KEY --store-password-in-clear-text
 
           Publish-Module -Repository powershell-poc -Path PSHello -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey 'n/a' -Verbose

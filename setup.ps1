@@ -1,22 +1,14 @@
+# Set variables based on optional env vars or defaults
+$modulePath = $env:REPO_MODULE_PATH ?? $pwd.Path
+$repositoryName = $env:REPOSITORY_NAME ?? "powershell-poc"
+$repositoryUri = $env:REPOSITORY_URI ?? "https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2"
+
+
 # Adding current path (workspace root) to PowerShell modules path; needed for testing and publishing
 Write-Output (@'
 Appending workspace to PS module path
    Workspace: {0}
    env:PSModulePath: {1}
-'@ -f $pwd.Path, $env:PSModulePath)
+'@ -f $modulePath, $env:PSModulePath)
 
-$env:PSModulePath += "$([System.IO.Path]::PathSeparator)$($pwd.Path)"
-
-
-# Register Powershell repository; needed for publishing
-$repositoryName = "powershell-poc"
-$repositoryUri = "https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2"
-
-Write-Output (@'
-Registering PS repository
-    Name: {0}
-    URI: {1}
-'@ -f $repositoryName, $repositoryUri)
-
-# Register-PSRepository -Name $repositoryName -SourceLocation $repositoryUri -PublishLocation $repositoryUri
-Register-PackageSource -Name $repositoryName -Location $repositoryUri -Trusted -SkipValidate -ProviderName NuGet
+$env:PSModulePath += "$([System.IO.Path]::PathSeparator)$modulePath"

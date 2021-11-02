@@ -4,18 +4,7 @@ This is a proof of concept on how you can develop, build, and package PowerShell
 
 ## Prerequisites
 
-- [PowerShell 7][powershell-install]
-- [dotnet 2.0 or newer][dotnet-install]
-- [Azure DevOps account][azure-devops]
-
-For local development or execution on remote machines, these will have to be installed and maintained through your preferred processes.
-
-For continuous integration, these should be pre-installed in various GitHub Actions virtual environments:
-  - [ubuntu-18.04][actions-virtual-environment-ubuntu-1804]
-  - [ubuntu-20.04][actions-virtual-environment-ubuntu-2004]
-  - [windows-2016][actions-virtual-environment-windows-2016]
-  - [windows-2019][actions-virtual-environment-windows-2019]
-  - [windows-2022][actions-virtual-environment-windows-2022]
+- [Azure DevOps account][azure-devops]  _([for more information](#why-recommend-azure-devops-artifacts))_
 
 ### Maintainer
 
@@ -51,13 +40,62 @@ The following is how a maintainer would setup the necessary [Azure DevOps Artifa
      ![Screenshot of GitHub repository settings for actions secrets available to actions runners including secret of Azure Artifacts PAT to publish artifacts](docs/assets/maintainer-actions-secret.png)
    </details>
 
-### Contributor
-
-1. 
-
 ### System Administrator
 
-1. 
+1. Ensure strong cryptography (TLS 1.2) is enabled for [Azure DevOps][azure-devops-tls]
+
+   As of Febuary 2020, [Azure DevOps Artifacts requires hosts have TLS 1.2 supported][azure-devops-tls], which was a response to [changing PCI compliance standards][pci-tls-12].
+
+   <details>
+     <summary>To confirm whether TLS 1.2 supported is enabled</summary>
+
+     ```powershell
+     [Net.ServicePointManager]::SecurityProtocol
+     Tls, Tls11, Tls12
+     ```
+   </details>
+
+   <details>
+     <summary>To enable TLS 1.2 support</summary>
+
+     ```powershell
+     Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319' -Name SchUseStrongCrypto -Value 1 -PropertyType 'Dword' -Force | Out-Null
+     Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319' -Name SystemDefaultTlsVersions -Value 1 -PropertyType 'Dword' -Force | Out-Null
+
+     If ([System.Environment]::Is64BitOperatingSystem) {
+       Set-ItemProperty -Path 'HKLM:\SOFTWARE\WOW6432Node\Microsoft\.NETFramework\v4.0.30319' -Name SchUseStrongCrypto -Value 1 -PropertyType 'Dword' -Force | Out-Null
+       Set-ItemProperty -Path 'HKLM:\SOFTWARE\WOW6432Node\Microsoft\.NETFramework\v4.0.30319' -Name SystemDefaultTlsVersions -Value 1 -PropertyType 'Dword' -Force | Out-Null
+     }
+     ```
+
+     Afterwards, close and reopen PowerShell terminal.
+   </details>
+
+1. [Register PowerShell repository][powershell-register-psrepository] using the read-only packages PAT
+
+   ```powershell
+   # Register Powershell repository; needed for publishing
+   $repositoryName = "powershell-poc"
+   $repositoryUri = "https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2"
+   $username = 'andyfeller'
+   $token = AZURE_DEVOPS_TOKEN
+   $credential = New-Object System.Management.Automation.PSCredential -ArgumentList $username, (ConvertTo-SecureString -AsPlainText $token -Force)
+
+   Register-PSRepository -Name $repositoryName -SourceLocation $repositoryUri -PublishLocation $repositoryUri -ScriptSourceLocation $repositoryUri -ScriptPublishLocation $repositoryUri -Credential $credential -InstallationPolicy Trusted
+   Get-PSRepository
+   ```
+
+1. Install PSHello module
+
+   ```powershell
+   Install-Module PSHello -Credential $credential
+   ```
+
+1. Invoke PSHello module `Write-PSHelloWorld` function
+
+   ```powershell
+   Write-PSHelloWorld
+   ```
 
 ## Why recommend Azure DevOps Artifacts?
 
@@ -121,7 +159,7 @@ For information on how GitHub-hosted runners are billed, [read more][actions-bil
   ```
 
   resulting in:
-  
+
   ```
   Name             : ConsoleHost
   Version          : 5.1.20348.230
@@ -134,9 +172,9 @@ For information on how GitHub-hosted runners are billed, [read more][actions-bil
   IsRunspacePushed : False
   Runspace         : System.Management.Automation.Runspaces.LocalRunspace
   ```
-  
+
   and
-  
+
   ```
   Name             : ConsoleHost
   Version          : 7.1.5
@@ -161,6 +199,7 @@ This repository is a proof of concept and it is evolving as we learn from others
 - [Adam the Automator "Understanding and Building PowerShell Modules"][building-modules-adamtheautomator]
 
 [actions-billing]: https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
+[actions-customize-runners]: https://docs.github.com/en/actions/using-github-hosted-runners/customizing-github-hosted-runners
 [actions-shells]: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#using-a-specific-shell
 [actions-supported-runners]: https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
 [actions-virtual-environment-macos-1015]: https://github.com/actions/virtual-environments/blob/main/images/macos/macos-10.15-Readme.md
@@ -173,11 +212,13 @@ This repository is a proof of concept and it is evolving as we learn from others
 [actions-windows-2016-eol]: https://github.blog/changelog/2021-10-19-github-actions-the-windows-2016-runner-image-will-be-removed-from-github-hosted-runners-on-march-15-2022/
 [azure-devops-artifacts-powershell]: https://docs.microsoft.com/en-us/azure/devops/artifacts/tutorials/private-powershell-library?view=azure-devops
 [azure-devops-artifacts]: https://azure.microsoft.com/en-us/services/devops/artifacts/
+[azure-devops-tls]: https://devblogs.microsoft.com/devops/azure-devops-services-to-require-tls-1-2/
 [azure-devops]: https://azure.microsoft.com/en-us/services/devops/
 [building-modules-adamtheautomator]: https://adamtheautomator.com/powershell-modules/#Adding_PSRepositories
 [building-modules-invokeautomation]: https://invoke-automation.blog/2019/09/24/powershell-scaffolding-how-i-build-modules/
 [building-modules-powershellexplained]: https://powershellexplained.com/2017-05-12-Powershell-Plaster-adventures-in/
 [building-modules-ramblingcookiemonster]: http://ramblingcookiemonster.github.io/Building-A-PowerShell-Module/
+[chocolatey]: https://community.chocolatey.org/
 [dotnet-install]: https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script
 [example-dotnet]: https://geoffhudik.com/tech/2020/10/04/github-packages-private-nuget-packages-via-github-actions/
 [example-nuget-samsmithnz]: https://samlearnsazure.blog/2021/08/08/consuming-a-nuget-package-from-github-packages/
@@ -190,10 +231,13 @@ This repository is a proof of concept and it is evolving as we learn from others
 [plaster]: https://github.com/PowerShellOrg/Plaster
 [powershell-about-comment-based-help]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_comment_based_help?view=powershell-7.1
 [powershell-about-format]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_format.ps1xml?view=powershell-7.1
+[powershell-about-powershell-exe]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_exe?view=powershell-5.1
 [powershell-install]: https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.1
 [powershell-private-repo-hosting]: https://docs.microsoft.com/en-us/powershell/scripting/gallery/how-to/working-with-local-psrepositories?view=powershell-7.1#use-packaging-solutions-to-host-powershellget-repositories
+[powershell-register-psrepository]: https://docs.microsoft.com/en-us/powershell/module/powershellget/register-psrepository?view=powershell-5.1
 [powershell-version-differences]: https://docs.microsoft.com/en-us/powershell/scripting/whats-new/differences-from-windows-powershell?view=powershell-7.1
 [powershellgallery-plaster]: https://www.powershellgallery.com/packages/Plaster/
 [powershellgallery-publishing-guidelines]: https://docs.microsoft.com/en-us/powershell/scripting/gallery/concepts/publishing-guidelines?view=powershell-7.1
 [powershellgallery-publishing-guidelines]: https://docs.microsoft.com/en-us/powershell/scripting/gallery/concepts/publishing-guidelines?view=powershell-7.1
 [powershellget-nuget-support]: https://devblogs.microsoft.com/powershell/powershellget-3-0-preview-11-release/
+[pci-tls-12]: https://www.docusign.com/blog/developers/preparing-tls-11-removal
