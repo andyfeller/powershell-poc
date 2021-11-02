@@ -78,4 +78,14 @@ jobs:
 
           dotnet nuget add source $env:REPOSITORY_URI -n $env:REPOSITORY_NAME -u $username -p $env:NUGET_KEY --store-password-in-clear-text
 
-          Publish-Module -Repository powershell-poc -Path PSHello -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey 'n/a' -Verbose
+          # Publish PowerShell modules and scripts
+          $modules = Get-ChildItem $PSScriptRoot\modules -Directory
+          $scripts = Get-ChildItem $PSScriptRoot\scripts -Filter *.ps1
+
+          foreach ($module in $modules) {
+            Publish-Module -Repository $env:REPOSITORY_NAME -Path $module -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey 'n/a' -Verbose
+          }
+
+          foreach ($script in $scripts) {
+            Publish-Script -Repository $env:REPOSITORY_NAME -Path $module -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey 'n/a' -Verbose
+          }
