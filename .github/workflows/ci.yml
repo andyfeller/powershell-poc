@@ -73,8 +73,8 @@ jobs:
           $username = 'andyfeller'
           $credential = New-Object System.Management.Automation.PSCredential -ArgumentList $username, (ConvertTo-SecureString -AsPlainText $env:NUGET_KEY -Force)
 
-          Register-PSRepository -Name $env:REPOSITORY_NAME -SourceLocation $env:REPOSITORY_URI -PublishLocation $env:REPOSITORY_URI -ScriptSourceLocation $env:REPOSITORY_URI -ScriptPublishLocation $env:REPOSITORY_URI -Credential $credential -InstallationPolicy Trusted
           Register-PackageSource -Name $env:REPOSITORY_NAME -Location $env:REPOSITORY_URI -Trusted -SkipValidate -ProviderName NuGet
+          Register-PSRepository -Name $env:REPOSITORY_NAME -SourceLocation $env:REPOSITORY_URI -PublishLocation $env:REPOSITORY_URI -ScriptSourceLocation $env:REPOSITORY_URI -ScriptPublishLocation $env:REPOSITORY_URI -Credential $credential -InstallationPolicy Trusted
           dotnet nuget add source $env:REPOSITORY_URI -n $env:REPOSITORY_NAME -u $username -p $env:NUGET_KEY --store-password-in-clear-text
 
           # Publish PowerShell modules and scripts
