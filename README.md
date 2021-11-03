@@ -189,7 +189,33 @@ For information on how GitHub-hosted runners are billed, [read more][actions-bil
   ```
 </details>
 
-## Creating new PowerShell scripts and modules
+## PowerShell repository structure
+
+This repository is a proof of concept and it is evolving as we learn from others and exercise ideas.  One of those areas is the relation of repository design and building artifacts.
+
+- [Invoke-Automation "PowerShell Scaffolding – How I build modules"][building-modules-invokeautomation]
+- [PowerShell Explained "Powershell: Adventures in Plaster"][building-modules-powershellexplained]
+- [Rambling Cookie Monster "Building a PowerShell Module"][building-modules-ramblingcookiemonster]
+- [Adam the Automator "Understanding and Building PowerShell Modules"][building-modules-adamtheautomator]
+
+This repository has been designed to support multiple modules and/or scripts:
+
+```
+├── docs                #  documentation, images, and other assets
+│   └── assets
+│
+├── modules             #  directory containing modules, will publish on merge to main
+│   └── PSHello
+│       ├── Private     #  directory containing module's private functions that should not be exported
+│       ├── Public      #  directory containing module's public functions that should be exported
+│       └── en-US       #  directory containing module's help docs (en-US locale)
+│
+├── scripts             #  directory containing scripts, will publish on merge to main
+│
+└── tests               #  directory containing tests for modules and scripts
+```
+
+### Creating new PowerShell scripts and modules
 
 **Creating new scripts**
 
@@ -225,15 +251,12 @@ $moduleManifest = @{
 New-ModuleManifest @moduleManifest
 ```
 
+### Releasing PowerShell scripts and modules
 
-## PowerShell repository structure
-
-This repository is a proof of concept and it is evolving as we learn from others and exercise ideas.  One of those areas is the relation of repository design and building artifacts.
-
-- [Invoke-Automation "PowerShell Scaffolding – How I build modules"][building-modules-invokeautomation]
-- [PowerShell Explained "Powershell: Adventures in Plaster"][building-modules-powershellexplained]
-- [Rambling Cookie Monster "Building a PowerShell Module"][building-modules-ramblingcookiemonster]
-- [Adam the Automator "Understanding and Building PowerShell Modules"][building-modules-adamtheautomator]
+The modules and scripts contained in the above directories will be released whenever changes are merged to the `main`
+branch.  In order to make it easier for contributors, modules and scripts will be released with the revision portion of
+their version set to the action run number before publishing.  Ideally, contributors would update the version whenever
+changes are made, but to err is human.
 
 [actions-billing]: https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
 [actions-customize-runners]: https://docs.github.com/en/actions/using-github-hosted-runners/customizing-github-hosted-runners

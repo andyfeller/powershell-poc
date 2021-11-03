@@ -6,6 +6,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "modules/**"
+      - "scripts/**"
 jobs:
   test:
     name: Test
