@@ -86,9 +86,9 @@ jobs:
             param([string]$path, [int]$newRevision)
 
             $currentVersion = Test-ScriptFileInfo -Path $path | Select-Object -ExpandProperty Version
-            $newVersion = [System.Version]$("{0}.{1}.{2}.{3}" -f $currentVersion.Major, $currentVersion.Minor, $currentVersion.Build, $newRevision)
+            $newVersion = ("{0}.{1}.{2}.{3}" -f $currentVersion.Major, $currentVersion.Minor, $currentVersion.Build, $newRevision)
 
-            Update-ScriptFileInfo -Path $path -ModuleVersion $newVersion
+            Update-ScriptFileInfo -Path $path -Version $newVersion
           }
 
           Function Update-ModuleManifestVersion {
