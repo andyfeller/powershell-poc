@@ -86,6 +86,7 @@ jobs:
             param([string]$path, [int]$newRevision)
 
             $currentVersion = Test-ScriptFileInfo -Path $path | Select-Object -ExpandProperty Version
+            $currentVersion = [System.Version]::Parse($currentVersion)
             $newVersion = ("{0}.{1}.{2}.{3}" -f $currentVersion.Major, $currentVersion.Minor, $currentVersion.Build, $newRevision)
 
             Update-ScriptFileInfo -Path $path -Version $newVersion
