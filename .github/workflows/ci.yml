@@ -35,18 +35,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Lint with PSScriptAnalyzer
+      - name: Lint modules
         shell: pwsh
         run: |
-          Invoke-ScriptAnalyzer -Path *.ps1 -Recurse -Outvariable issues
+          Invoke-ScriptAnalyzer -Path $env:GITHUB_WORKSPACE\modules -Recurse -Outvariable issues
 
           $errors   = $issues.Where({$_.Severity -eq 'Error'})
           $warnings = $issues.Where({$_.Severity -eq 'Warning'})
 
           if ($errors) {
-              Write-Error "There were $($errors.Count) errors and $($warnings.Count) warnings total." -ErrorAction Stop
+              Write-Error "Modules contained $($errors.Count) errors and $($warnings.Count) warnings total." -ErrorAction Stop
           } else {
-              Write-Output "There were $($errors.Count) errors and $($warnings.Count) warnings total."
+              Write-Output "Modules contained $($errors.Count) errors and $($warnings.Count) warnings total."
+          }
+
+      - name: Lint scripts
+        shell: pwsh
+        if: ${{ always() }}
+        run: |
+          Invoke-ScriptAnalyzer -Path $env:GITHUB_WORKSPACE\scripts\*.ps1 -Outvariable issues
+
+          $errors   = $issues.Where({$_.Severity -eq 'Error'})
+          $warnings = $issues.Where({$_.Severity -eq 'Warning'})
+
+          if ($errors) {
+              Write-Error "Scripts contained $($errors.Count) errors and $($warnings.Count) warnings total." -ErrorAction Stop
+          } else {
+              Write-Output "Scripts contained $($errors.Count) errors and $($warnings.Count) warnings total."
           }
 
   publish:
