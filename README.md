@@ -191,7 +191,11 @@ For information on how GitHub-hosted runners are billed, [read more][actions-bil
 
 ## Creating new PowerShell scripts and modules
 
-Using the [`New-ScriptFileInfo` cmdlet][powershell-new-scriptfileinfo], you can create a new script based on the following example:
+**Creating new scripts**
+
+Scripts are contained within the [`scripts`](scripts/) directory and are published individually when merged to the `main` branch.
+
+Scripts should be created using the [`New-ScriptFileInfo` cmdlet][powershell-new-scriptfileinfo] and include basic information like:
 
 ```powershell
 $scriptFileInfo = @{
@@ -202,6 +206,23 @@ $scriptFileInfo = @{
 }
 
 New-ScriptFileInfo @scriptFileInfo
+```
+
+**Creating new modules**
+
+Modules are contained within the [`modules`](modules/) directory and are published individually when merged the `main` branch.
+
+Modules should be created using the [`New-ModuleManifest` cmdlet][powershell-new-modulemanifest] and include basic information like:
+
+```powershell
+$moduleManifest = @{
+	Path = "./modules/PSHello/PSHello.psd1"
+	Version = "0.0.1"
+  Author = "andyfeller@github.com"
+  Description = "Simple module to print Hello world!"
+}
+
+New-ModuleManifest @moduleManifest
 ```
 
 
@@ -258,3 +279,4 @@ This repository is a proof of concept and it is evolving as we learn from others
 [powershellget-nuget-support]: https://devblogs.microsoft.com/powershell/powershellget-3-0-preview-11-release/
 [pci-tls-12]: https://www.docusign.com/blog/developers/preparing-tls-11-removal
 [powershell-new-scriptfileinfo]: https://docs.microsoft.com/en-us/powershell/module/powershellget/new-scriptfileinfo?view=powershell-7.1
+[powershell-new-modulemanifest]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/new-modulemanifest?view=powershell-7.1
