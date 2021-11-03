@@ -82,6 +82,24 @@ jobs:
           REPOSITORY_NAME: powershell-poc
           REPOSITORY_URI: https://pkgs.dev.azure.com/andyfeller/powershell-poc/_packaging/powershell-poc/nuget/v2
         run: |
+          Function Update-ScriptFileInfoVersion {
+            param([string]$path, [int]$newRevision)
+
+            $currentVersion = Test-ScriptFileInfo -Path $path | Select-Object -ExpandProperty Version
+            $newVersion = [System.Version]$("{0}.{1}.{2}.{3}" -f $currentVersion.Major, $currentVersion.Minor, $currentVersion.Build, $newRevision)
+
+            Update-ScriptFileInfo -Path $path -ModuleVersion $newVersion
+          }
+
+          Function Update-ModuleManifestVersion {
+            param([string]$path, [int]$newRevision)
+
+            $currentVersion = Test-ModuleManifest -Path $path | Select-Object -ExpandProperty Version
+            $newVersion = [System.Version]$("{0}.{1}.{2}.{3}" -f $currentVersion.Major, $currentVersion.Minor, $currentVersion.Build, $newRevision)
+
+            Update-ModuleManifest -Path $path -ModuleVersion $newVersion
+          }
+
           ./setup.ps1
 
           # Register Powershell repository; needed for publishing
@@ -97,9 +115,11 @@ jobs:
           $scripts = Get-ChildItem "$env:GITHUB_WORKSPACE\scripts" -Filter *.ps1
 
           foreach ($module in $modules) {
+            Update-ModuleManifestVersion -Path $module -NewRevision $env:GITHUB_RUN_NUMBER
             Publish-Module -Repository $env:REPOSITORY_NAME -Path $module -ProjectUri https://github.com/${{ github.repository }} -NuGetApiKey 'n/a' -Verbose -Force
           }
 
           foreach ($script in $scripts) {
+            Update-ScriptFileInfoVersion -Path $script -NewRevision $env:GITHUB_RUN_NUMBER
             Publish-Script -Repository $env:REPOSITORY_NAME -Path $script -NuGetApiKey 'n/a' -Verbose -Force
           }
