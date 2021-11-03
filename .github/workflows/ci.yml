@@ -73,7 +73,7 @@ jobs:
           $username = 'andyfeller'
           $credential = New-Object System.Management.Automation.PSCredential -ArgumentList $username, (ConvertTo-SecureString -AsPlainText $env:NUGET_KEY -Force)
 
-          Register-PackageSource -Name $env:REPOSITORY_NAME -Location $env:REPOSITORY_URI -Trusted -SkipValidate -ProviderName NuGet
+          Register-PackageSource -Name $env:REPOSITORY_NAME -Location $env:REPOSITORY_URI -Trusted -SkipValidate -ProviderName NuGet -Credential $credential
           Register-PSRepository -Name $env:REPOSITORY_NAME -SourceLocation $env:REPOSITORY_URI -PublishLocation $env:REPOSITORY_URI -ScriptSourceLocation $env:REPOSITORY_URI -ScriptPublishLocation $env:REPOSITORY_URI -Credential $credential -InstallationPolicy Trusted
           dotnet nuget add source $env:REPOSITORY_URI -n $env:REPOSITORY_NAME -u $username -p $env:NUGET_KEY --store-password-in-clear-text
 
@@ -82,9 +82,9 @@ jobs:
           $scripts = Get-ChildItem "$env:GITHUB_WORKSPACE\scripts" -Filter *.ps1
 
           foreach ($module in $modules) {
-            Publish-Module -Repository $env:REPOSITORY_NAME -Path $module -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey 'n/a' -Verbose
+            Publish-Module -Repository $env:REPOSITORY_NAME -Path $module -ProjectUri https://github.com/${{ github.repository }} -NuGetApiKey 'n/a' -Verbose -Force
           }
 
           foreach ($script in $scripts) {
-            Publish-Script -Repository $env:REPOSITORY_NAME -Path $module -ProjectUri https://github.com/${{ github.repository_owner }} -NuGetApiKey 'n/a' -Verbose
+            Publish-Script -Repository $env:REPOSITORY_NAME -Path $module -NuGetApiKey 'n/a' -Verbose -Force
           }
