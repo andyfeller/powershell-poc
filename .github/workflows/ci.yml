@@ -115,7 +115,7 @@ jobs:
           $scripts = Get-ChildItem "$env:GITHUB_WORKSPACE\scripts" -Filter *.ps1
 
           foreach ($module in $modules) {
-            Update-ModuleManifestVersion -Path $module -NewRevision $env:GITHUB_RUN_NUMBER
+            Update-ModuleManifestVersion -Path $(Get-ChildItem $module -Filter*.psd1) -NewRevision $env:GITHUB_RUN_NUMBER
             Publish-Module -Repository $env:REPOSITORY_NAME -Path $module -ProjectUri https://github.com/${{ github.repository }} -NuGetApiKey 'n/a' -Verbose -Force
           }
 
