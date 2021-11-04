@@ -2,6 +2,8 @@
 
 This is a proof of concept on how you can develop, build, and package PowerShell projects within GitHub leverage [GitHub flow and techniques][github-services-workflow-guide] and [Azure DevOps Artifacts][azure-devops-artifacts].
 
+![Diagram showing GitHub Flow and Azure DevOps Artifacts side-by-side, highlighting some of the key concepts in this proof of concept](docs/assets/overview.png)
+
 ## Prerequisites
 
 - [Azure DevOps account][azure-devops]  _([for more information](#why-recommend-azure-devops-artifacts))_
@@ -258,6 +260,8 @@ branch.  In order to make it easier for contributors, modules and scripts will b
 their version set to the action run number before publishing.  Ideally, contributors would update the version whenever
 changes are made, but to err is human.
 
+Want to give special thanks to @agazoth's ["Increment Build and Version in PSake"][building-modules-agazoth] article as it highlighted the use of [`Update-ModuleManifest`][powershell-update-modulemanifest] and [`Update-ScriptFileInfo`][powershell-update-scriptfileinfo] to update version numbers in the release process!
+
 [actions-billing]: https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
 [actions-customize-runners]: https://docs.github.com/en/actions/using-github-hosted-runners/customizing-github-hosted-runners
 [actions-shells]: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#using-a-specific-shell
@@ -278,6 +282,7 @@ changes are made, but to err is human.
 [building-modules-invokeautomation]: https://invoke-automation.blog/2019/09/24/powershell-scaffolding-how-i-build-modules/
 [building-modules-powershellexplained]: https://powershellexplained.com/2017-05-12-Powershell-Plaster-adventures-in/
 [building-modules-ramblingcookiemonster]: http://ramblingcookiemonster.github.io/Building-A-PowerShell-Module/
+[building-modules-agazoth]: https://agazoth.github.io/blogpost/2018/09/12/Increment-Build-and-Version-in-PSake.html
 [chocolatey]: https://community.chocolatey.org/
 [dotnet-install]: https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script
 [example-dotnet]: https://geoffhudik.com/tech/2020/10/04/github-packages-private-nuget-packages-via-github-actions/
@@ -303,3 +308,5 @@ changes are made, but to err is human.
 [pci-tls-12]: https://www.docusign.com/blog/developers/preparing-tls-11-removal
 [powershell-new-scriptfileinfo]: https://docs.microsoft.com/en-us/powershell/module/powershellget/new-scriptfileinfo?view=powershell-7.1
 [powershell-new-modulemanifest]: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/new-modulemanifest?view=powershell-7.1
+[powershell-update-modulemanifest]: https://docs.microsoft.com/en-us/powershell/module/powershellget/update-modulemanifest?view=powershell-7.1
+[powershell-update-scriptfileinfo]: https://docs.microsoft.com/en-us/powershell/module/powershellget/update-scriptfileinfo?view=powershell-7.1
