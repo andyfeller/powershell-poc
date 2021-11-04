@@ -262,11 +262,21 @@ The following is how a maintainer would setup the necessary [Azure DevOps Artifa
 1. Create secrets in secret vault for authenticating to Azure DevOps Artifacts:
 
    ```powershell
-   $username = Set-Secret -Name powershell-poc-username
-   $password = Set-Secret -Name powershell-poc-password
+   Set-Secret -Name powershell-poc-username
+   Set-Secret -Name powershell-poc-password
 
-   $credential = New-Object -TypeName PSCredential -ArgumentList $username, $password
+   $credential = New-Object -TypeName PSCredential -ArgumentList (Get-Secret powershell-poc-username), (Get-Secret powershell-poc-password)
    Set-Secret -Name powershell-poc-credential -Secret $credential
+   ```
+
+   You will be prompted for a password to secure a secret vault the first time a secret is saved:
+
+   ```
+   Creating a new powershell-poc vault. A password is required by the current store configuration.
+   Enter password:
+   ********************
+   Enter password again for verification:
+   ********************
    ```
 
 1. [Register PowerShell repository][powershell-register-psrepository] using the read-only packages PAT
