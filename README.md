@@ -20,7 +20,7 @@ As of October 2021, the [PowerShellGet 3.0 beta with NuGet v3 support][powershel
 - https://github.com/PowerShell/PowerShellGet/issues/163
 - https://github.com/OneGet/oneget/issues/430
 
-This primarily impacts PowerShell projects as developers on `dotnet` projects as the `nuget` and `dotnet nuget` CLIs work with NuGet GitHub Packages repositories as expected:
+This only impacts PowerShell projects; developers on `dotnet` projects leverage `nuget` and `dotnet nuget` CLIs with NuGet GitHub Packages repositories as expected:
 
 - [GitHub Packages: Private NuGet Packages via GitHub Actions][example-dotnet]
 - [Example script for publishing a PowerShell module to the NuGet GitHub Package Registry][example-powershellget-01]
