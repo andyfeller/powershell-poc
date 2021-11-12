@@ -158,8 +158,8 @@ Modules should be created using the [`New-ModuleManifest` cmdlet][powershell-new
 
 ```powershell
 $moduleManifest = @{
-	Path = "./modules/PSHello/PSHello.psd1"
-	Version = "0.0.1"
+  Path = "./modules/PSHello/PSHello.psd1"
+  Version = "0.0.1"
   Author = "andyfeller@github.com"
   Description = "Simple module to print Hello world!"
 }
